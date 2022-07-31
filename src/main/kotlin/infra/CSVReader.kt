@@ -1,7 +1,7 @@
 package infra
 
 import domain.Borrower
-import app.DataReader
+import domain.DataReader
 
 class CSVReader : DataReader {
     override fun retrieveAll(): List<Borrower> {

@@ -1,6 +1,7 @@
 package app
 
 import domain.Borrower
+import domain.DataReader
 import domain.Loan
 
 class LoanService(private val dataReader: DataReader) {
@@ -12,8 +13,7 @@ class LoanService(private val dataReader: DataReader) {
         myLoan.checkValidAmount()
 
         if(!myLoan.denied) {
-            var borrowersAvailable = retrieveAll(dataReader)
-
+            var borrowersAvailable = Borrower().retrieveAllBorrowersAvailable(dataReader)
             myLoan.configureBorrowers(borrowersAvailable)
         }
 
@@ -26,9 +26,6 @@ class LoanService(private val dataReader: DataReader) {
 
     }
 
-    private fun retrieveAll(dataReader:DataReader): List<Borrower>{
-        return dataReader.retrieveAll()
-    }
 
 
 }
