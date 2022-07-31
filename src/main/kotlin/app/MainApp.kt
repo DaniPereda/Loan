@@ -8,9 +8,5 @@ class MainApp(private val inputRetriever: InputRetriever, private val outputRetr
     var loanService = LoanService(CSVReader())
     var loan = loanService.start(amountNeeded)
 
-    var writter = outputRetriever.setResponse(loan)
-
-
-
-
+    val writer = outputRetriever.setResponse(loan)
 }

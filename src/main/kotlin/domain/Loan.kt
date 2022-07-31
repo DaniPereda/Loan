@@ -9,6 +9,7 @@ data class Loan(var amount: Float) {
     var monthly: Float = 0F
     var denied: Boolean = false
     var deniedReason:String = ""
+    var state:State = State.OK
 
 
     fun configureBorrowers(allBorrowersAvailable: List<Borrower>) {
@@ -17,8 +18,7 @@ data class Loan(var amount: Float) {
         while (restOfAmount > 0F) {
             if(mutableAllBorrowersAvailable.isEmpty())
             {
-                denied = true
-                deniedReason = "Sorry, we have no enought fund to satisfy your loan"
+                state = State.NOT_ENOUGH_FOUNDS
                 break
             }
             restOfAmount = addMinorRateBorrower(restOfAmount, mutableAllBorrowersAvailable)
@@ -60,8 +60,7 @@ data class Loan(var amount: Float) {
     {
         if (amount%100 != 0F || amount < 1000 || amount > 15000)
         {
-            denied = true
-            deniedReason = "Amount must be between 1000 and 15000./nAmount must be multiple of 100"
+            state = State.INCORRECT_AMOUNT
         }
     }
 
