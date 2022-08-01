@@ -2,18 +2,25 @@ package infra
 
 import domain.Borrower
 import app.DataReader
+import java.io.File
+
 
 class CSVReader : DataReader {
     override fun retrieveAll(): List<Borrower> {
-        return mutableListOf(
-            Borrower("Bob", 0.075F, 640F),
-            Borrower("Jane", 0.069F, 480F),
-            Borrower("Fred", 0.071F, 520F),
-            Borrower("Mary", 0.104F, 170F),
-            Borrower("John", 0.081F, 320F),
-            Borrower("Dave", 0.074F, 140F),
-            Borrower("Angela", 0.071F, 60F)
-        )
+        var borrowersList = mutableListOf<Borrower>()
+        File("Loan.csv").forEachLine {
+            if(noFirstLine(it)) {
+                borrowersList.add(createBorrowerFromString(it))
+            }
+        }
+        return borrowersList.toList()
+    }
 
+    private fun noFirstLine(it: String) = it != "Lender,Rate,Available"
+
+    private fun createBorrowerFromString(borrowerFormatString:String):Borrower
+    {
+        var splittedBorrower = borrowerFormatString.split(',')
+        return Borrower(splittedBorrower[2],splittedBorrower[1].toFloat(),splittedBorrower[2].toFloat())
     }
 }
